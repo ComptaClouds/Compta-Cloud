@@ -3,15 +3,20 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     # First/last name is not a global-friendly pattern
-    name = models.CharField(blank=True, max_length=255)
+    name = models.CharField(blank=True, null=True ,max_length=255)
     denominations = models.CharField(max_length=45, blank=True, null=True)
     sieges = models.CharField(max_length=45, blank=True, null=True)
     objets = models.CharField(max_length=45, blank=True, null=True)
     capitals = models.FloatField(blank=True, null=True)
     durees = models.IntegerField(blank=True, null=True)
 
+    class Meta:
+
+        permissions = (("can_mark_returned", "can change compte"),)
+
     def __str__(self):
         return self.email
+
 
 
 class Compte(models.Model):
@@ -22,6 +27,10 @@ class Compte(models.Model):
     class Meta:
         managed = False
         db_table = 'compte'
+        permissions = (
+            ('view_compte', 'Afficher le contenu compte'),
+            ("close_compte", "Can remove a task by setting its status as closed"),
+        )
 
 
 class Contrat(models.Model):
@@ -30,6 +39,9 @@ class Contrat(models.Model):
     class Meta:
         managed = False
         db_table = 'contrat'
+        permissions = (
+            ('view_content', 'Afficher le contenu contact'),
+        )
 
 
 class Credits(models.Model):

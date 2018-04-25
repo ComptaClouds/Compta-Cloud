@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'comptaApp',
+    'rolepermissions',
 ]
 AUTH_USER_MODEL = 'comptaApp.CustomUser'
+AUTH_PROFILE_MODULE = 'compte.CustomUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -1,10 +1,24 @@
+
 {% extends 'base.html' %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
+
+    {% if user.is_authenticated or perms.comptaApp %}
+    Hi {{ user.username}} tu es dans le group
+{{ user.groups.all.0.name }} voici tes permission <li>{{ perms.comptaApp}}</li>
+<hr/>
+    <!-- permissions du groupe auquel il appartient -->
+{% for speaker in user.groups.all %}
+
+  {% for speaker2 in speaker.permissions.all %}
+        <li>{{ speaker2.name }}</li>
+  {% endfor %}
+
+{% endfor %}
+<!-- fin permissions du groupe auquel il ap-->
+
   <p><a href="{% url 'logout' %}">logout</a></p>
 {% else %}
   <p>You are not logged in</p>
